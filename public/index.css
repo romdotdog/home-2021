@@ -1,0 +1,50 @@
+@keyframes in {
+	to {
+		transform: translateX(0);
+	}
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	background: #1f1f1f;
+	display: flex;
+}
+
+nav {
+	transform: translateX(-100%);
+	width: 70px;
+	background: #0f0f0f;
+	animation: in forwards 0.5s ease-out;
+	z-index: 2;
+}
+
+/* https://codepen.io/sosuke/pen/Pjoqqp */
+nav > :first-child > img,
+nav img:hover {
+	filter: invert(97%) sepia(0%) saturate(633%) hue-rotate(166deg)
+		brightness(90%) contrast(98%);
+}
+
+nav img {
+	filter: invert(54%) sepia(76%) saturate(0%) hue-rotate(263deg) brightness(87%)
+		contrast(74%);
+
+	padding: 16px;
+	transition: filter 0.1s;
+}
+
+aside {
+	transform: translateX(-125%);
+	width: 240px;
+	background: #161616;
+	border-right: #000 1px solid;
+}
+
+aside[load] {
+	animation: in forwards 0.75s ease-out;
+}
