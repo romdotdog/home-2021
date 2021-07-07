@@ -1,32 +1,34 @@
-const DISCORD_URL = "https://edge.rom.dog/discord/751469608615280670";
-
 const elements = {
 	discord: document.getElementById("discord"),
 	aside: document.getElementsByTagName("aside")[0]
 };
 
-// Discord
-fetch(DISCORD_URL, {
-	cache: "only-if-cached",
-	mode: "same-origin"
-})
-	.then((r) => {
-		if (r.status != 504) {
-			const date = res.headers.get("date"),
-				dt = date ? new Date(date).getTime() : 0;
-			if (dt > Date.now() - 21600) return r;
-		}
+caches.open("cache").then((cache) => {
+	const cachedFetch = (url, expire) =>
+		cache.match(url).then(async (r) => {
+			if (r) {
+				const date = r.headers.get("date"),
+					dt = date ? new Date(date).getTime() : 0;
 
-		return fetch(DISCORD_URL, {
-			cache: "force-cache"
+				if (dt > Date.now() - expire) return r;
+			}
+
+			cache.add(url);
+			return cache.match(url);
 		});
-	})
-	.then((r) => r.json())
-	.then((json) => {
-		elements.discord.href = json.instant_invite;
-		elements.aside.toggleAttribute("loaded");
-	})
-	.catch(() => {
-		elements.discord.style = "display: none";
-		elements.aside.toggleAttribute("loaded");
-	});
+
+	// Discord
+	cachedFetch("https://edge.rom.dog/discord/751469608615280670", 21600000)
+		.then((r) => r.json())
+		.then((json) => {
+			elements.discord.href = json.instant_invite;
+			elements.aside.toggleAttribute("loaded");
+		})
+		.catch((e) => {
+			console.error(e);
+			elements.discord.style = "display: none";
+			elements.aside.toggleAttribute("loaded");
+		});
+});
+// dsc.bio
+//cachedFetch("");
