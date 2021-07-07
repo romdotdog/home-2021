@@ -4,6 +4,12 @@
 	}
 }
 
+@keyframes border {
+	to {
+		width: 90%;
+	}
+}
+
 html,
 body {
 	height: 100%;
@@ -19,15 +25,14 @@ nav {
 	transform: translateX(-100%);
 	width: 70px;
 	background: #0f0f0f;
-	animation: in forwards 0.5s ease-out;
+	animation: in forwards 0.5s cubic-bezier(0.39, 0.575, 0.565, 1);
 	z-index: 2;
 }
 
 /* https://codepen.io/sosuke/pen/Pjoqqp */
 nav > :first-child > img,
 nav img:hover {
-	filter: invert(97%) sepia(0%) saturate(633%) hue-rotate(166deg)
-		brightness(90%) contrast(98%);
+	filter: invert(97%) saturate(633%) brightness(90%) contrast(98%);
 }
 
 nav img {
@@ -46,5 +51,23 @@ aside {
 }
 
 aside[load] {
-	animation: in forwards 0.75s ease-out;
+	animation: in forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 0.1s;
+}
+
+main {
+	display: flex;
+	flex: 1 1;
+	flex-direction: column;
+	align-items: center;
+}
+
+header {
+	width: 100%;
+	height: 300px;
+}
+
+div {
+	border-bottom: #3c3c3c 1px solid;
+	width: 0%;
+	animation: border forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 0.4s;
 }
