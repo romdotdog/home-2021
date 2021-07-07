@@ -24,9 +24,9 @@ fetch(DISCORD_URL, {
 	.then((r) => r.json())
 	.then((json) => {
 		elements.discord.href = json.instant_invite;
-		elements.aside.toggleAttribute("load");
+		elements.aside.toggleAttribute("loaded");
 	})
 	.catch(() => {
 		elements.discord.style = "display: none";
-		elements.aside.toggleAttribute("load");
+		elements.aside.toggleAttribute("loaded");
 	});

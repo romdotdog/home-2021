@@ -50,7 +50,7 @@ aside {
 	border-right: #000 1px solid;
 }
 
-aside[load] {
+aside[loaded] {
 	animation: in forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 0.1s;
 }
 
