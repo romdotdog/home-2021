@@ -52,7 +52,7 @@ discord.addEventListener("click", e => {
 	e.preventDefault();
 	window.open(
 		discord.href,
-		`Invite to ${name}`,
+		`Invite to rom's server`,
 		"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
 	);
 });
