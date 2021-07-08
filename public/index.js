@@ -1,7 +1,39 @@
-let discord, avatar, aside, address, discriminator;
+const cachePromise = caches.open("cache");
+const discord = document.getElementById("discord"),
+	avatar = document.getElementById("avatar"),
+	discordSection = document.getElementById("discordSection"),
+	aside = document.getElementsByTagName("aside")[0],
+	address = document.getElementsByTagName("address")[0],
+	discriminator = document.getElementsByTagName("discriminator")[0];
+
+discord.addEventListener("click", e => {
+	e.preventDefault();
+	window.location.href = `discord://${discord.href.replace("https://", "")}`;
+	/*
+	window.open(
+		discord.href,
+		`Invite to rom's server`,
+		"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
+	);
+	*/
+});
+
+const discordUser = document.createElement("article");
+
+{
+	const avatarElement = document.createElement("img");
+	avatarElement.width = "32";
+	avatarElement.height = "32";
+	discordUser.appendChild(avatarElement);
+	discordUser.appendChild(document.createElement("name"));
+	const statusElement = document.createElement("status");
+	statusElement.innerText = "Playing ";
+	statusElement.appendChild(document.createElement("strong"));
+	discordUser.appendChild(statusElement);
+}
 
 const hour = 1000 * 60 * 60;
-caches.open("cache").then(cache => {
+cachePromise.then(cache => {
 	const cachedFetch = (url, expire) =>
 		cache.match(url).then(r => {
 			if (r) {
@@ -18,8 +50,40 @@ caches.open("cache").then(cache => {
 	cachedFetch("https://edge.rom.dog/discord/751469608615280670", hour * 6)
 		.then(r => r.json())
 		.then(json => {
+			console.log(json);
 			discord.href = json.instant_invite;
-			aside.toggleAttribute("loaded");
+
+			const fragment = document.createDocumentFragment();
+			json.members.forEach((member, i) => {
+				const memberElement = discordUser.cloneNode(true);
+				memberElement.style = `--i: ${i}`;
+				const [avatarElement, nameElement, statusElement] =
+					memberElement.childNodes;
+				avatarElement.src = member.avatar_url;
+				nameElement.innerText = member.username;
+
+				if ("game" in member) {
+					statusElement.lastChild.textContent = member.game.name;
+				} else {
+					memberElement.toggleAttribute("stub");
+					statusElement.remove();
+				}
+
+				fragment.appendChild(memberElement);
+			});
+
+			discordSection.appendChild(fragment);
+			if ("fonts" in document) {
+				Promise.all([
+					document.fonts.load("700 12px Lato"),
+					document.fonts.load("700 16px Lato"),
+					document.fonts.load("16px Lato")
+				]).then(() => {
+					aside.toggleAttribute("loaded");
+				});
+			} else {
+				aside.toggleAttribute("loaded");
+			}
 		})
 		.catch(e => {
 			console.error(e);
@@ -33,29 +97,11 @@ caches.open("cache").then(cache => {
 		.then(json => {
 			console.log(json);
 
-			const discordUser = json.payload.discord;
-			avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${discordUser.avatar}.webp?size=256`;
+			const user = json.payload.discord;
+			avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${user.avatar}.webp?size=256`;
 			avatar.addEventListener("load", () => avatar.toggleAttribute("loaded"));
-			discriminator.innerText = `#${discordUser.discriminator}`;
+			discriminator.innerText = `#${user.discriminator}`;
 
 			address.toggleAttribute("loaded");
 		});
-});
-
-discord = document.getElementById("discord");
-avatar = document.getElementById("avatar");
-aside = document.getElementsByTagName("aside")[0];
-address = document.getElementsByTagName("address")[0];
-discriminator = document.getElementsByTagName("discriminator")[0];
-
-discord.addEventListener("click", e => {
-	e.preventDefault();
-	window.location.href = `discord://${discord.href.replace("https://", "")}`;
-	/*
-	window.open(
-		discord.href,
-		`Invite to rom's server`,
-		"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
-	);
-	*/
 });

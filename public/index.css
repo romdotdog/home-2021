@@ -20,7 +20,7 @@
 	}
 }
 
-@keyframes address {
+@keyframes fromLeft {
 	0% {
 		transform: translateX(-5%);
 	}
@@ -70,7 +70,11 @@ nav img {
 	transition: filter 0.1s;
 }
 
+/* aside */
 aside {
+	display: flex;
+	flex-direction: column;
+
 	transform: translateX(-125%);
 	width: 240px;
 	background: #161616;
@@ -81,6 +85,60 @@ aside[loaded] {
 	animation: in forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 50ms;
 }
 
+aside > section {
+	flex: 1 1;
+}
+
+aside h2 {
+	font-size: 20px;
+	text-align: center;
+}
+
+/* - Discord */
+
+#discordSection > article {
+	padding: 0 0 2px 18px;
+
+	display: grid;
+	grid-template-columns: 32px;
+	grid-template-rows: 24px 16px;
+	gap: 0 12px;
+	grid-template-areas:
+		"avatar name"
+		"avatar .";
+
+	align-items: center;
+
+	opacity: 0;
+	animation: fromLeft forwards 0.8s cubic-bezier(0.39, 0.575, 0.565, 1)
+		calc(0.75s + var(--i) * 100ms);
+}
+
+#discordSection > article[stub] {
+	grid-template-areas:
+		"avatar name"
+		"avatar name";
+}
+
+#discordSection img {
+	grid-area: avatar;
+	border-radius: 50%;
+}
+
+#discordSection name {
+	grid-area: name;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 26px;
+}
+
+#discordSection status {
+	font-size: 12px;
+	color: #777;
+	font-weight: 700;
+}
+
+/* main */
 main {
 	display: flex;
 	flex: 1 1;
@@ -112,11 +170,11 @@ address > h1 {
 }
 
 address[loaded] > :first-child {
-	animation: address forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 1.2s;
+	animation: fromLeft forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 1.2s;
 }
 
 address[loaded] > :nth-child(2) {
-	animation: address forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 1.4s;
+	animation: fromLeft forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 1.4s;
 }
 
 #avatar {
