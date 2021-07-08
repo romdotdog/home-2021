@@ -1,11 +1,9 @@
-const elements = {
-	discord: document.getElementById("discord"),
-	aside: document.getElementsByTagName("aside")[0]
-};
+let discord, avatar, aside, address, discriminator;
 
-caches.open("cache").then((cache) => {
+const hour = 1000 * 60 * 60;
+caches.open("cache").then(cache => {
 	const cachedFetch = (url, expire) =>
-		cache.match(url).then(async (r) => {
+		cache.match(url).then(r => {
 			if (r) {
 				const date = r.headers.get("date"),
 					dt = date ? new Date(date).getTime() : 0;
@@ -18,17 +16,44 @@ caches.open("cache").then((cache) => {
 		});
 
 	// Discord
-	cachedFetch("https://edge.rom.dog/discord/751469608615280670", 21600000)
-		.then((r) => r.json())
-		.then((json) => {
-			elements.discord.href = json.instant_invite;
-			elements.aside.toggleAttribute("loaded");
+	cachedFetch("https://edge.rom.dog/discord/751469608615280670", hour * 6)
+		.then(r => r.json())
+		.then(json => {
+			discord.href = json.instant_invite;
+			aside.toggleAttribute("loaded");
 		})
-		.catch((e) => {
+		.catch(e => {
 			console.error(e);
-			elements.discord.style = "display: none";
-			elements.aside.toggleAttribute("loaded");
+			discord.style = "display: none";
+			aside.toggleAttribute("loaded");
+		});
+
+	// Discord profile info
+	cachedFetch("https://edge.rom.dog/dsc.bio/rom", hour)
+		.then(r => r.json())
+		.then(json => {
+			console.log(json);
+
+			const discordUser = json.payload.discord;
+			avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${discordUser.avatar}.webp?size=256`;
+			avatar.addEventListener("load", () => avatar.toggleAttribute("loaded"));
+			discriminator.innerText = `#${discordUser.discriminator}`;
+
+			address.toggleAttribute("loaded");
 		});
 });
-// dsc.bio
-//cachedFetch("");
+
+discord = document.getElementById("discord");
+avatar = document.getElementById("avatar");
+aside = document.getElementsByTagName("aside")[0];
+address = document.getElementsByTagName("address")[0];
+discriminator = document.getElementsByTagName("discriminator")[0];
+
+discord.addEventListener("click", e => {
+	e.preventDefault();
+	window.open(
+		discord.href,
+		`Invite to ${name}`,
+		"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
+	);
+});

@@ -3,17 +3,44 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="Get to know about me here." />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
 		<link rel="stylesheet" href="index.css" />
+
+		<script>
+			if ("fonts" in document) {
+				Promise.all([
+					document.fonts.load("1em Lato"),
+					document.fonts.load("700 26px Lato"),
+					document.fonts.load("26px Lato")
+				]).then(() => {
+					document.documentElement.toggleAttribute("loaded");
+				});
+			}
+		</script>
+
 		<script async src="index.js"></script>
 		<title>About rom</title>
 	</head>
 	<body>
 		<nav>
 			<a href="https://rom.dog/"
-				><img alt="Home" aria-label="Home" width="36" src="home.svg"
+				><img
+					alt="Home"
+					aria-label="Home"
+					width="36"
+					height="36"
+					src="home.svg"
 			/></a>
 			<a href="https://github.com/romdotdog"
-				><img alt="GitHub" aria-label="GitHub" width="36" src="github.svg"
+				><img
+					alt="GitHub"
+					aria-label="GitHub"
+					width="36"
+					height="36"
+					src="github.svg"
 			/></a>
 			<a href="#" id="discord"
 				><img
@@ -26,8 +53,19 @@
 		</nav>
 		<aside></aside>
 		<main>
-			<header></header>
+			<header>
+				<img id="avatar" width="256" height="256" />
+				<address>
+					<h1>rom<discriminator>#0000</discriminator></h1>
+					<id>705148136904982570</id>
+				</address>
+			</header>
 			<div />
 		</main>
+
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
 	</body>
 </html>
