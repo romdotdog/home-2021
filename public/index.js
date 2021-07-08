@@ -59,7 +59,7 @@ cachePromise.then(cache => {
 				memberElement.style = `--i: ${i}`;
 				const [avatarElement, nameElement, statusElement] =
 					memberElement.childNodes;
-				avatarElement.src = member.avatar_url;
+				avatarElement.src = member.avatar_url + "?size=32";
 				nameElement.innerText = member.username;
 
 				if ("game" in member) {
