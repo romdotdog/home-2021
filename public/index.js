@@ -11,8 +11,7 @@ caches.open("cache").then(cache => {
 				if (dt > Date.now() - expire) return r;
 			}
 
-			cache.add(url);
-			return cache.match(url);
+			return cache.add(url).then(() => cache.match(url));
 		});
 
 	// Discord
