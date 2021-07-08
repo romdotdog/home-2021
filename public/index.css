@@ -76,7 +76,7 @@ aside {
 	flex-direction: column;
 
 	transform: translateX(-125%);
-	width: 240px;
+	width: 260px;
 	background: #161616;
 	border-right: #000 1px solid;
 }
