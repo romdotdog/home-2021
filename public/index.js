@@ -24,6 +24,7 @@ const discordUser = document.createElement("article");
 	const avatarElement = document.createElement("img");
 	avatarElement.width = "32";
 	avatarElement.height = "32";
+	avatarElement.alt = "Avatar";
 	discordUser.appendChild(avatarElement);
 	discordUser.appendChild(document.createElement("name"));
 	const statusElement = document.createElement("status");
@@ -59,6 +60,7 @@ cachePromise.then(cache => {
 				memberElement.style = `--i: ${i}`;
 				const [avatarElement, nameElement, statusElement] =
 					memberElement.childNodes;
+
 				avatarElement.src = member.avatar_url + "?size=32";
 				nameElement.innerText = member.username;
 
