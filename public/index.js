@@ -50,9 +50,12 @@ discriminator = document.getElementsByTagName("discriminator")[0];
 
 discord.addEventListener("click", e => {
 	e.preventDefault();
+	window.location.href = `discord://${discord.href.replace("https://", "")}`;
+	/*
 	window.open(
 		discord.href,
 		`Invite to rom's server`,
 		"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
 	);
+	*/
 });
