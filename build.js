@@ -50,7 +50,7 @@ const cssnano = require("cssnano");
 fs.readFile("src/index.css", "utf-8")
 	.then(src => {
 		const cssoResult = csso(src);
-		const cleanCSS = new CleanCSS().minify(src);
+		const cleanCSS = new CleanCSS({ level: 2 }).minify(src);
 		return cssnano()
 			.process(src, { from: undefined }, { preset: "advanced" })
 			.then(cssnano => ({
