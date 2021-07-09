@@ -10,6 +10,8 @@ const terse = require("terser").minify;
 const uglify = require("uglify-js").minify;
 const Compiler = require("google-closure-compiler").compiler;
 
+const processJS = str => str.replace(/^'use strict';|\n|;$/g, "");
+
 const writeSmallestToFile = (file, stage) => outputs => {
 	const results = Object.entries(outputs).sort(
 		(a, b) => a[1].length - b[1].length
@@ -28,7 +30,9 @@ const writeSmallestToFile = (file, stage) => outputs => {
 const compiled = new Compiler({
 	js: "src/index.js",
 	compilation_level: "ADVANCED",
-	rewrite_polyfills: false
+	rewrite_polyfills: false,
+	language_out: "ECMASCRIPT_2015",
+	externs: "caches.js"
 });
 
 fs.readFile("src/index.js", "utf-8")
@@ -48,10 +52,10 @@ fs.readFile("src/index.js", "utf-8")
 				compiled.run((_, res, err) => (err ? e(err) : r(res)))
 			)
 		]).then(([terser, closure]) => ({
-			"babel-minify": babel.code,
-			terser: terser.code,
-			uglify: uglifyjs.code,
-			closure
+			"babel-minify": processJS(babel.code),
+			terser: processJS(terser.code),
+			uglify: processJS(uglifyjs.code),
+			closure: processJS(closure)
 		}));
 	})
 	.then(writeSmallestToFile("dist/index.js", "js"));

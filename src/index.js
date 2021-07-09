@@ -1,5 +1,5 @@
 (() => {
-	const cachePromise = window.caches.open("cache");
+	const cachePromise = caches.open("cache");
 	const discord = document.getElementById("discord"),
 		avatar = document.getElementById("avatar"),
 		discordSection = document.getElementById("discordSection"),
