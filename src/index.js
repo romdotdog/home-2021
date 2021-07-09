@@ -1,4 +1,4 @@
-const cachePromise = caches.open("cache");
+const cachePromise = window.caches.open("cache");
 const discord = document.getElementById("discord"),
 	avatar = document.getElementById("avatar"),
 	discordSection = document.getElementById("discordSection"),
@@ -89,7 +89,7 @@ cachePromise.then(cache => {
 		})
 		.catch(e => {
 			console.error(e);
-			discord.style = "display: none";
+			discord.style.display = "none";
 			aside.toggleAttribute("loaded");
 		});
 
