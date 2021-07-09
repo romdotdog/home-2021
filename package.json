@@ -3,7 +3,7 @@
 	"private": true,
 	"main": "build.js",
 	"scripts": {
-		"build": "webpack"
+		"build": "node build.js"
 	},
 	"repository": {
 		"type": "git",
