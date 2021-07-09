@@ -58,7 +58,7 @@
 				const fragment = document.createDocumentFragment();
 				json["members"].forEach((member, i) => {
 					const memberElement = discordUser.cloneNode(true);
-					memberElement.style["--i"] = i;
+					memberElement.style.setProperty("--i", i);
 					const [avatarElement, nameElement, statusElement] =
 						memberElement.childNodes;
 
