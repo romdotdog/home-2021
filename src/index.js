@@ -53,20 +53,20 @@
 			.then(r => r.json())
 			.then(json => {
 				console.log(json);
-				discord.href = json.instant_invite;
+				discord.href = json["instant_invite"];
 
 				const fragment = document.createDocumentFragment();
-				json.members.forEach((member, i) => {
+				json["members"].forEach((member, i) => {
 					const memberElement = discordUser.cloneNode(true);
 					memberElement.style["--i"] = i;
 					const [avatarElement, nameElement, statusElement] =
 						memberElement.childNodes;
 
-					avatarElement.src = member.avatar_url + "?size=32";
-					nameElement.innerText = member.username;
+					avatarElement.src = member["avatar_url"] + "?size=32";
+					nameElement.innerText = member["username"];
 
 					if ("game" in member) {
-						statusElement.lastChild.textContent = member.game.name;
+						statusElement.lastChild.textContent = member["game"]["name"];
 					} else {
 						memberElement.toggleAttribute("stub");
 						statusElement.remove();
@@ -100,10 +100,10 @@
 			.then(json => {
 				console.log(json);
 
-				const user = json.payload.discord;
-				avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${user.avatar}.webp?size=256`;
+				const user = json["payload"]["discord"];
+				avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${user["avatar"]}.webp?size=256`;
 				avatar.addEventListener("load", () => avatar.toggleAttribute("loaded"));
-				discriminator.innerText = `#${user.discriminator}`;
+				discriminator.innerText = `#${user["discriminator"]}`;
 
 				address.toggleAttribute("loaded");
 			});
