@@ -1,6 +1,6 @@
 // Minify using variety of minifiers and pick best result
 
-const fs = require("fs/promises");
+const fs = require("fs.promises");
 const copydir = require("copy-dir");
 
 copydir.sync("src", "dist", {});
