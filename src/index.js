@@ -9,7 +9,7 @@
 
 	discord.addEventListener("click", e => {
 		e.preventDefault();
-		window.location.href = `discord://${discord.href.replace("https://", "")}`;
+		window.location.href = discord.href.replace("https://", "discord://");
 		/*
 	window.open(
 		discord.href,
