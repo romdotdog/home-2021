@@ -6,8 +6,9 @@ const copydir = require("copy-dir");
 copydir.sync("src", "dist", {});
 
 const babelMinify = require("babel-minify");
-const { minify: terse } = require("terser");
-const { minify: uglify } = require("uglify-js");
+const terse = require("terser").minify;
+const uglify = require("uglify-js").minify;
+const Compiler = require("google-closure-compiler").compiler;
 
 const writeSmallestToFile = (file, stage) => outputs => {
 	const results = Object.entries(outputs).sort(
@@ -23,6 +24,13 @@ const writeSmallestToFile = (file, stage) => outputs => {
 };
 
 // JS
+
+const compiled = new Compiler({
+	js: "src/index.js",
+	compilation_level: "ADVANCED",
+	rewrite_polyfills: false
+});
+
 fs.readFile("src/index.js", "utf-8")
 	.then(src => {
 		const babel = babelMinify(src);
@@ -31,19 +39,25 @@ fs.readFile("src/index.js", "utf-8")
 			compress: { unsafe: true, passes: 4 }
 		});
 
-		return terse(src, {
-			toplevel: true,
-			compress: { unsafe: true, passes: 4 }
-		}).then(terser => ({
+		return Promise.all([
+			terse(src, {
+				toplevel: true,
+				compress: { unsafe: true, passes: 4 }
+			}),
+			new Promise((r, e) =>
+				compiled.run((_, res, err) => (err ? e(err) : r(res)))
+			)
+		]).then(([terser, closure]) => ({
 			"babel-minify": babel.code,
 			terser: terser.code,
-			uglify: uglifyjs.code
+			uglify: uglifyjs.code,
+			closure
 		}));
 	})
 	.then(writeSmallestToFile("dist/index.js", "js"));
 
 // CSS
-const { minify: csso } = require("csso");
+const csso = require("csso").minify;
 const CleanCSS = require("clean-css");
 const cssnano = require("cssnano");
 
@@ -63,7 +77,7 @@ fs.readFile("src/index.css", "utf-8")
 
 // HTML
 const htmlnano = require("htmlnano");
-const { minify: htmlMinify } = require("html-minifier");
+const htmlMinify = require("html-minifier").minify;
 
 fs.readFile("src/index.html", "utf-8")
 	.then(src => {
