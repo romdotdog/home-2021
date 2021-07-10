@@ -5,21 +5,30 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="Get to know about me here." />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
+		<link rel="dns-prefetch" href="https://edge.rom.dog/" />
 		<link rel="stylesheet" href="index.css" />
 
 		<script>
-			if ("fonts" in document) {
-				Promise.all([
-					document.fonts.load("1em Lato"),
-					document.fonts.load("700 26px Lato"),
-					document.fonts.load("26px Lato")
-				]).then(() => {
-					document.documentElement.toggleAttribute("loaded");
-				});
-			}
+			(() => {
+				if (sessionStorage.fonts) {
+					document.documentElement.className = "s2";
+					return;
+				}
+
+				if ("fonts" in document) {
+					document.fonts.load("32px LatoSubset").then(() => {
+						document.documentElement.className = "s1";
+						Promise.all([
+							document.fonts.load("1em Lato"),
+							document.fonts.load("700 26px LatoBold"),
+							document.fonts.load("26px Lato")
+						]).then(() => {
+							document.documentElement.className += " s2";
+							sessionStorage.fonts = true;
+						});
+					});
+				}
+			})();
 		</script>
 
 		<script async src="index.js"></script>

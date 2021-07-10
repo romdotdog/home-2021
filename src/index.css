@@ -1,3 +1,20 @@
+@font-face {
+	font-family: LatoSubset;
+	src: url("opt.woff2") format("woff2"), url("opt.woff") format("woff");
+	unicode-range: U+65-90, U+97-122;
+}
+
+@font-face {
+	font-family: Lato;
+	src: url("reg.woff2") format("woff2"), url("reg.woff") format("woff");
+}
+
+@font-face {
+	font-family: LatoBold;
+	src: url("bold.woff2") format("woff2"), url("bold.woff") format("woff");
+	font-weight: 700;
+}
+
 @keyframes in {
 	to {
 		transform: translateX(0);
@@ -44,8 +61,18 @@ body {
 	color: #dddddd;
 }
 
-[loaded] > body {
+.s1 > body {
+	font-family: LatoSubset, sans-serif;
+}
+
+.s2 > body {
 	font-family: Lato, sans-serif;
+}
+
+.s2 h1,
+.s2 strong {
+	font-family: LatoBold, sans-serif;
+	font-weight: 700;
 }
 
 nav {
@@ -125,17 +152,21 @@ aside h2 {
 	border-radius: 50%;
 }
 
+.s2 #discordSection name,
+.s2 #discordSection status {
+	font-family: LatoBold, sans-serif;
+	font-weight: 700;
+}
+
 #discordSection name {
 	grid-area: name;
 	font-size: 16px;
-	font-weight: 700;
 	line-height: 26px;
 }
 
 #discordSection status {
 	font-size: 12px;
 	color: #777;
-	font-weight: 700;
 }
 
 /* main */
@@ -188,9 +219,13 @@ address[loaded] > :nth-child(2) {
 	animation: avatar forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1) 1s;
 }
 
+.s2 discriminator {
+	font-family: Lato, sans-serif;
+	font-weight: normal;
+}
+
 id,
 discriminator {
-	font-weight: normal;
 	color: #75715e;
 }
 
