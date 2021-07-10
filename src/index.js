@@ -39,10 +39,7 @@
 		avatarElement.alt = "Avatar";
 		discordUser.appendChild(avatarElement);
 		discordUser.appendChild(document.createElement("name"));
-		const statusElement = document.createElement("status");
-		statusElement.innerText = "Playing ";
-		statusElement.appendChild(document.createElement("strong"));
-		discordUser.appendChild(statusElement);
+		discordUser.appendChild(document.createElement("status"));
 	}
 
 	const hour = 1000 * 60 * 60;
@@ -80,7 +77,7 @@
 					nameElement.innerText = member["username"];
 
 					if ("game" in member) {
-						statusElement.lastChild.textContent = member["game"]["name"];
+						statusElement.innerText = `Playing ${member["game"]["name"]}`;
 					} else {
 						memberElement.toggleAttribute("stub");
 						statusElement.remove();
