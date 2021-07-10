@@ -7,6 +7,17 @@
 		address = document.getElementsByTagName("address")[0],
 		discriminator = document.getElementsByTagName("discriminator")[0];
 
+	const quidem = t => {
+		const p = new Promise(r => setTimeout(r, t));
+		return f =>
+			(...args) =>
+				p.then(() => f(...args));
+	};
+
+	const asideQuidem = quidem(50);
+	const avatarQuidem = quidem(1000);
+	const addressQuidem = quidem(1200);
+
 	discord.addEventListener("click", e => {
 		e.preventDefault();
 		window.location.href = discord.href.replace("https://", "discord://");
@@ -82,17 +93,20 @@
 				});
 
 				discordSection.appendChild(fragment);
+
+				const asideQuidemTie = asideQuidem(() =>
+					aside.toggleAttribute("loaded")
+				);
+
 				if ("fonts" in document) {
 					Promise.all([
 						document.fonts.load("700 12px Lato"),
 						document.fonts.load("700 16px Lato"),
 						document.fonts.load("16px Lato"),
 						...imageLoadPromises
-					]).then(() => aside.toggleAttribute("loaded"));
+					]).then(asideQuidemTie);
 				} else {
-					Promise.all(imageLoadPromises).then(() =>
-						aside.toggleAttribute("loaded")
-					);
+					Promise.all(imageLoadPromises).then(asideQuidemTie);
 				}
 			})
 			.catch(e => {
@@ -109,10 +123,13 @@
 
 				const user = json["payload"]["discord"];
 				avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${user["avatar"]}.webp?size=256`;
-				avatar.addEventListener("load", () => avatar.toggleAttribute("loaded"));
-				discriminator.innerText = `#${user["discriminator"]}`;
+				avatar.addEventListener(
+					"load",
+					avatarQuidem(() => avatar.toggleAttribute("loaded"))
+				);
 
-				address.toggleAttribute("loaded");
-			});
+				discriminator.innerText = `#${user["discriminator"]}`;
+			})
+			.then(addressQuidem(() => address.toggleAttribute("loaded")));
 	});
 })();
