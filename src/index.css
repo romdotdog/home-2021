@@ -135,8 +135,10 @@ aside h2 {
 		"avatar .";
 
 	align-items: center;
-
 	opacity: 0;
+}
+
+aside[loaded] > #discordSection article {
 	animation: fromLeft forwards 0.8s cubic-bezier(0.39, 0.575, 0.565, 1)
 		calc(0.75s + var(--i) * 100ms);
 }

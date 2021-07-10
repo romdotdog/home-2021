@@ -56,6 +56,8 @@
 				discord.href = json["instant_invite"];
 
 				const fragment = document.createDocumentFragment();
+				const imageLoadPromises = [];
+
 				json["members"].forEach((member, i) => {
 					const memberElement = discordUser.cloneNode(true);
 					memberElement.style.setProperty("--i", i);
@@ -63,6 +65,10 @@
 						memberElement.childNodes;
 
 					avatarElement.src = member["avatar_url"] + "?size=32";
+					imageLoadPromises.push(
+						new Promise(r => avatarElement.addEventListener("load", r))
+					);
+
 					nameElement.innerText = member["username"];
 
 					if ("game" in member) {
@@ -80,12 +86,13 @@
 					Promise.all([
 						document.fonts.load("700 12px Lato"),
 						document.fonts.load("700 16px Lato"),
-						document.fonts.load("16px Lato")
-					]).then(() => {
-						aside.toggleAttribute("loaded");
-					});
+						document.fonts.load("16px Lato"),
+						...imageLoadPromises
+					]).then(() => aside.toggleAttribute("loaded"));
 				} else {
-					aside.toggleAttribute("loaded");
+					Promise.all(imageLoadPromises).then(() =>
+						aside.toggleAttribute("loaded")
+					);
 				}
 			})
 			.catch(e => {
