@@ -102,7 +102,7 @@ aside {
 	display: flex;
 	flex-direction: column;
 
-	transform: translateX(-125%);
+	transform: translateX(-128%);
 	width: 260px;
 	background: #161616;
 	border-right: #000 1px solid;
