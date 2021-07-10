@@ -92,20 +92,16 @@
 
 				discordSection.appendChild(fragment);
 
-				const asideQuidemTie = asideQuidem(() =>
-					aside.toggleAttribute("loaded")
-				);
-
-				if ("fonts" in document) {
-					Promise.all([
-						document.fonts.load("700 12px Lato"),
-						document.fonts.load("700 16px Lato"),
-						document.fonts.load("16px Lato"),
-						...imageLoadPromises
-					]).then(asideQuidemTie);
-				} else {
-					Promise.all(imageLoadPromises).then(asideQuidemTie);
-				}
+				Promise.all(
+					"fonts" in document
+						? [
+								document.fonts.load("700 12px Lato"),
+								document.fonts.load("700 16px Lato"),
+								document.fonts.load("16px Lato"),
+								...imageLoadPromises
+						  ]
+						: imageLoadPromises
+				).then(asideQuidem(() => aside.toggleAttribute("loaded")));
 			})
 			.catch(e => {
 				console.error(e);
