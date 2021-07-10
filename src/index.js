@@ -74,6 +74,9 @@
 						memberElement.childNodes;
 
 					avatarElement.src = member["avatar_url"] + "?size=32";
+					const imagePromise = new Promise(r =>
+						avatarElement.addEventListener("load", r)
+					);
 					nameElement.innerText = member["username"];
 
 					if ("game" in member) {
@@ -84,7 +87,7 @@
 					}
 
 					fragment.appendChild(memberElement);
-					return new Promise(r => avatarElement.addEventListener("load", r));
+					return imagePromise;
 				});
 
 				discordSection.appendChild(fragment);
