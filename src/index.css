@@ -181,7 +181,7 @@ header {
 	padding: 22px 0;
 
 	display: grid;
-	grid-template-columns: 1.15fr 1fr;
+	grid-template-columns: 1.18fr 1fr;
 	grid-template-rows: 1.1fr 1fr;
 	gap: 6px 36px;
 	grid-template-areas:
