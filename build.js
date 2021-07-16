@@ -1,9 +1,9 @@
 // Minify using variety of minifiers and pick best result
 
 const fs = require("fs.promises");
-const copydir = require("copy-dir");
+const copyfiles = require("copyfiles");
 
-copydir.sync("src", "dist", {});
+copyfiles(["src/**/*.woff*", "dist"], { up: 1 }, () => {});
 
 const babelMinify = require("babel-minify");
 const terse = require("terser").minify;
