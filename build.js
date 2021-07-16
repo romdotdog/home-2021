@@ -14,7 +14,8 @@ const terse = require("terser").minify;
 const uglify = require("uglify-js").minify;
 const Compiler = require("google-closure-compiler").compiler;
 
-const processJS = str => str.replace(/^'use strict';|"use strict";|\n|;$/g, "");
+const processJS = str =>
+	str.replace(/^'use strict';|^"use strict";|\n|;$/g, "");
 
 const writeSmallestToFile = (file, stage) => outputs => {
 	dirPromise.then(() => {
@@ -25,7 +26,7 @@ const writeSmallestToFile = (file, stage) => outputs => {
 		const [name, src] = results[0];
 
 		console.log(`best ${stage} minifier was ${name}. results:`);
-		console.log(results.map(r => [r[0], r[1].length]));
+		console.log(results.map(r => [r[0], r[1]]));
 
 		fs.writeFile(file, src);
 	});
