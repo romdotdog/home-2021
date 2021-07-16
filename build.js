@@ -26,7 +26,7 @@ const writeSmallestToFile = (file, stage) => outputs => {
 		const [name, src] = results[0];
 
 		console.log(`best ${stage} minifier was ${name}. results:`);
-		console.log(results.map(r => [r[0], r[1]]));
+		console.log(results.map(r => [r[0], r[1].length]));
 
 		fs.writeFile(file, src);
 	});
