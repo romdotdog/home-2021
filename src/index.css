@@ -101,9 +101,6 @@ nav svg {
 
 /* aside */
 aside {
-	display: flex;
-	flex-direction: column;
-
 	transform: translateX(-128%);
 	width: 260px;
 	background: #161616;
