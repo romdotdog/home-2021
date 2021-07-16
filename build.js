@@ -3,6 +3,8 @@
 const fs = require("fs.promises");
 const copyfiles = require("copyfiles");
 
+const dirPromise = fs.mkdir("dist").catch(() => {});
+
 require("./svg.js").then(() =>
 	copyfiles(["src/**/*.woff*", "src/bundle.svg", "dist"], { up: 1 }, () => {})
 );
@@ -15,16 +17,18 @@ const Compiler = require("google-closure-compiler").compiler;
 const processJS = str => str.replace(/^'use strict';|"use strict";|\n|;$/g, "");
 
 const writeSmallestToFile = (file, stage) => outputs => {
-	const results = Object.entries(outputs).sort(
-		(a, b) => a[1].length - b[1].length
-	);
+	dirPromise.then(() => {
+		const results = Object.entries(outputs).sort(
+			(a, b) => a[1].length - b[1].length
+		);
 
-	const [name, src] = results[0];
+		const [name, src] = results[0];
 
-	console.log(`best ${stage} minifier was ${name}. results:`);
-	console.log(results.map(r => [r[0], r[1].length]));
+		console.log(`best ${stage} minifier was ${name}. results:`);
+		console.log(results.map(r => [r[0], r[1].length]));
 
-	fs.writeFile(file, src);
+		fs.writeFile(file, src);
+	});
 };
 
 // JS
