@@ -89,6 +89,8 @@ fs.readFile("src/index.css", "utf-8")
 // HTML
 const htmlnano = require("htmlnano");
 const htmlMinify = require("html-minifier").minify;
+const htmlNanoPreset = htmlnano.presets.max;
+htmlNanoPreset.minifySvg = false;
 
 fs.readFile("src/index.html", "utf-8")
 	.then(src => {
@@ -109,7 +111,7 @@ fs.readFile("src/index.html", "utf-8")
 		});
 
 		return htmlnano
-			.process(src, { from: undefined }, htmlnano.presets.max)
+			.process(src, { from: undefined }, htmlNanoPreset)
 			.then(htmlnano => ({
 				"html-minifier": htmlMinifier,
 				htmlnano: htmlnano.html
