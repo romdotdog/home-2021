@@ -78,8 +78,11 @@ nav {
 	transform: translateX(-100%);
 	width: 70px;
 	background: #0f0f0f;
-	animation: in forwards 0.5s cubic-bezier(0.39, 0.575, 0.565, 1);
 	z-index: 2;
+}
+
+nav[loaded] {
+	animation: in forwards 0.5s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
 /* https://codepen.io/sosuke/pen/Pjoqqp */

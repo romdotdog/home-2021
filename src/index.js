@@ -4,6 +4,7 @@
 	const discord = document.getElementById("discord"),
 		avatar = document.getElementById("avatar"),
 		discordSection = document.getElementById("discordSection"),
+		nav = document.getElementsByTagName("nav")[0],
 		aside = document.getElementsByTagName("aside")[0],
 		address = document.getElementsByTagName("address")[0],
 		discriminator = document.getElementsByTagName("discriminator")[0];
@@ -14,6 +15,8 @@
 			(...args) =>
 				p.then(f.bind(0, args));
 	};
+
+	const loadPromise = e => new Promise(r => e.addEventListener("load", r));
 
 	const asideQuidem = quidem(50);
 	const avatarQuidem = quidem(1000);
@@ -72,9 +75,8 @@
 						memberElement.childNodes;
 
 					avatarElement.src = member["avatar_url"] + "?size=32";
-					const imagePromise = new Promise(r =>
-						avatarElement.addEventListener("load", r)
-					);
+					const imagePromise = loadPromise(avatarElement);
+
 					nameElement.innerText = member["username"];
 
 					if ("game" in member) {
@@ -124,4 +126,8 @@
 			})
 			.then(addressQuidem(() => address.toggleAttribute("loaded")));
 	});
+
+	Promise.all([...document.querySelectorAll("nav svg")].map(loadPromise)).then(
+		() => nav.toggleAttribute("loaded")
+	);
 })();
