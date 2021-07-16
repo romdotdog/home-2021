@@ -83,14 +83,13 @@ nav {
 }
 
 /* https://codepen.io/sosuke/pen/Pjoqqp */
-nav > :first-child > img,
-nav img:hover {
-	filter: invert(97%) saturate(633%) brightness(90%) contrast(98%);
+nav > :first-child > svg,
+nav svg:hover {
+	fill: #ddd;
 }
 
-nav img {
-	filter: invert(54%) sepia(76%) saturate(0%) hue-rotate(263deg) brightness(87%)
-		contrast(74%);
+nav svg {
+	fill: #888;
 
 	padding: 16px;
 	transition: filter 0.1s;

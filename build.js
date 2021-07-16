@@ -3,7 +3,9 @@
 const fs = require("fs.promises");
 const copyfiles = require("copyfiles");
 
-copyfiles(["src/**/*.woff*", "dist"], { up: 1 }, () => {});
+require("./svg.js").then(() =>
+	copyfiles(["src/**/*.woff*", "src/bundle.svg", "dist"], { up: 1 }, () => {})
+);
 
 const babelMinify = require("babel-minify");
 const terse = require("terser").minify;
