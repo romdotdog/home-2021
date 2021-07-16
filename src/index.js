@@ -4,9 +4,9 @@
 	const discord = document.getElementById("discord"),
 		avatar = document.getElementById("avatar"),
 		discordSection = document.getElementById("discordSection"),
+		header = document.getElementsByTagName("header")[0],
 		nav = document.getElementsByTagName("nav")[0],
 		aside = document.getElementsByTagName("aside")[0],
-		address = document.getElementsByTagName("address")[0],
 		discriminator = document.getElementsByTagName("discriminator")[0];
 
 	const quidem = t => {
@@ -20,7 +20,7 @@
 
 	const asideQuidem = quidem(50);
 	const avatarQuidem = quidem(1000);
-	const addressQuidem = quidem(1200);
+	const headerQuidem = quidem(1200);
 
 	discord.addEventListener("click", e => {
 		e.preventDefault();
@@ -124,7 +124,7 @@
 
 				discriminator.innerText = `#${user["discriminator"]}`;
 			})
-			.then(addressQuidem(() => address.toggleAttribute("loaded")));
+			.then(headerQuidem(() => header.toggleAttribute("loaded")));
 	});
 
 	Promise.all([...document.querySelectorAll("nav svg")].map(loadPromise)).then(
