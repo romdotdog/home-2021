@@ -12,7 +12,7 @@ const terse = require("terser").minify;
 const uglify = require("uglify-js").minify;
 const Compiler = require("google-closure-compiler").compiler;
 
-const processJS = str => str.replace(/^'use strict';|\n|;$/g, "");
+const processJS = str => str.replace(/^'use strict';|"use strict";|\n|;$/g, "");
 
 const writeSmallestToFile = (file, stage) => outputs => {
 	const results = Object.entries(outputs).sort(
