@@ -1,3 +1,4 @@
+"use strict";
 (() => {
 	const cachePromise = caches.open("cache");
 	const discord = document.getElementById("discord"),
@@ -11,7 +12,7 @@
 		const p = new Promise(r => setTimeout(r, t));
 		return f =>
 			(...args) =>
-				p.then(() => f(...args));
+				p.then(f.bind(0, args));
 	};
 
 	const asideQuidem = quidem(50);
@@ -22,12 +23,12 @@
 		e.preventDefault();
 		window.location.href = discord.href.replace("https://", "discord://");
 		/*
-	window.open(
-		discord.href,
-		`Invite to rom's server`,
-		"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
-	);
-	*/
+		window.open(
+			discord.href,
+			`Invite to rom's server`,
+			"menubar=no,width=524,height=777,location=no,resizable=no,scrollbars=yes,status=no"
+		);
+		*/
 	});
 
 	const discordUser = document.createElement("article");
