@@ -16,7 +16,10 @@
 				p.then(f.bind(0, args));
 	};
 
-	const loadPromise = e => new Promise(r => e.addEventListener("load", r));
+	const loadPromise = e =>
+		e.complete
+			? Promise.resolve()
+			: new Promise(r => e.addEventListener("load", r));
 
 	const asideQuidem = quidem(50);
 	const avatarQuidem = quidem(1000);
