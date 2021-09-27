@@ -1,6 +1,7 @@
 package-lock.json
 src/bundle.svg
 svg
+.replit
 
 # Logs
 logs

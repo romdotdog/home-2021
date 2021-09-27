@@ -50,7 +50,7 @@ fs.readFile("src/index.js", "utf-8")
 			compress: { unsafe: true, passes: 4 }
 		});
 
-		return Promise.all([
+		return Promise.allSettled([
 			terse(src, {
 				toplevel: true,
 				compress: { unsafe: true, passes: 4 }
@@ -60,9 +60,9 @@ fs.readFile("src/index.js", "utf-8")
 			)
 		]).then(([terser, closure]) => ({
 			"babel-minify": processJS(babel.code),
-			terser: processJS(terser.code),
+			terser: processJS(terser.value.code),
 			uglify: processJS(uglifyjs.code),
-			closure: processJS(closure)
+			...((closure.status == "fulfilled") && { closure: processJS(closure)})
 		}));
 	})
 	.then(writeSmallestToFile("dist/index.js", "js"));
