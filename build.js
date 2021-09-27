@@ -62,7 +62,7 @@ fs.readFile("src/index.js", "utf-8")
 			"babel-minify": processJS(babel.code),
 			terser: processJS(terser.value.code),
 			uglify: processJS(uglifyjs.code),
-			...((closure.status == "fulfilled") && { closure: processJS(closure)})
+			...((closure.status == "fulfilled") && { closure: processJS(closure.value)})
 		}));
 	})
 	.then(writeSmallestToFile("dist/index.js", "js"));
