@@ -20,6 +20,8 @@ const requestListener = function (req, res) {
 			ct = "text/css"
 		else if (uri == "/index.js")
 			ct = "text/javascript"
+		else if (uri == "/bundle.svg")
+			ct = "image/svg+xml"
 
 		res.writeHead(200, { "Content-Type": ct });
 		res.write(file, "binary");

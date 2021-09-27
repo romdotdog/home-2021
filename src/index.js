@@ -82,7 +82,7 @@
 			});
 
 		// Discord
-		cachedFetch("https://edge.rom.dog/discord/751469608615280670", hour * 6)
+		cachedFetch("https://edge.r-om.workers.dev/discord/751469608615280670", hour * 6)
 			.then(r => r.json())
 			.then(json => {
 				console.log(json);
@@ -131,7 +131,7 @@
 			});
 
 		// Discord profile info
-		cachedFetch("https://edge.rom.dog/dsc.bio/rom", hour)
+		cachedFetch("https://edge.r-om.workers.dev/dsc.bio/rom", hour)
 			.then(r => r.json())
 			.then(json => {
 				console.log(json);
