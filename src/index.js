@@ -1,4 +1,6 @@
 "use strict";
+
+
 (() => {
 	const cachePromise = caches.open("cache");
 	const discord = document.getElementById("discord"),
@@ -19,7 +21,23 @@
 	const loadPromise = e =>
 		e.complete
 			? Promise.resolve()
-			: new Promise(r => e.addEventListener("load", r));
+			: new Promise(r => { 
+				console.log(e);
+				e.onload = r; 
+
+				// school, let's try to proxy the images
+				let n = true;
+				e.onerror = () => {
+					if (n) {
+						e.src = "//external-content.duckduckgo.com/iu/?u=" + e.src;
+						n = false;
+					}
+				}
+			});
+	
+	Promise.all([...document.querySelectorAll("nav svg")].map(loadPromise)).then(
+			() => nav.toggleAttribute("loaded")
+	);
 
 	const asideQuidem = quidem(50);
 	const avatarQuidem = quidem(1000);
@@ -120,17 +138,11 @@
 
 				const user = json["payload"]["discord"];
 				avatar.src = `https://cdn.discordapp.com/avatars/705148136904982570/${user["avatar"]}.webp?size=256`;
-				avatar.addEventListener(
-					"load",
-					avatarQuidem(() => avatar.toggleAttribute("loaded"))
-				);
+				loadPromise(avatar).then(avatarQuidem(() => avatar.toggleAttribute("loaded")));
 
 				discriminator.innerText = `#${user["discriminator"]}`;
 			})
 			.then(headerQuidem(() => header.toggleAttribute("loaded")));
 	});
-
-	Promise.all([...document.querySelectorAll("nav svg")].map(loadPromise)).then(
-		() => nav.toggleAttribute("loaded")
-	);
 })();
+
