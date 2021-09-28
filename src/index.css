@@ -101,6 +101,8 @@ nav svg {
 
 /* aside */
 aside {
+	display: flex;
+    flex-direction: column;
 	transform: translateX(-128%);
 	width: 260px;
 	background: #161616;
@@ -111,8 +113,8 @@ aside[loaded] {
 	animation: in forwards 0.75s cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 
-aside > section {
-	flex: 1 1;
+aside > section:first-child {
+	flex: 0 1;
 }
 
 aside h2 {
@@ -169,6 +171,44 @@ aside[loaded] > #discordSection article {
 	font-size: 12px;
 	color: #777;
 }
+
+/* GitHub */
+
+#githubSection {
+	overflow-y: scroll;
+}
+
+#githubSection article {
+	padding: 0 0 16px 18px;
+	opacity: 0;
+}
+
+aside[loaded] > #githubSection article {
+	animation: fromLeft forwards 0.8s cubic-bezier(0.39, 0.575, 0.565, 1)
+		calc(0.75s + var(--i) * 100ms);
+}
+
+#githubSection a {
+	text-decoration: none;
+	display: block;
+
+	color: #f92672;
+	font-size: 20px;
+	font-weight: 600;
+
+	margin-bottom: 4px;
+}
+
+#githubSection a:hover {
+	text-decoration: underline;
+}
+
+#githubSection desc {
+	margin-bottom: 8px;
+	display: block;
+}
+
+
 
 /* main */
 main {

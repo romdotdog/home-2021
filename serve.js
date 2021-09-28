@@ -5,7 +5,7 @@ const path = require('path');
 
 const requestListener = function (req, res) {
 	const uri = url.parse(req.url).pathname, 
-      filename = path.join(process.cwd(), "dist", uri == "/" ? "index.html" : uri);
+      filename = path.join(process.cwd(), "src", uri == "/" ? "index.html" : uri);
 
   	fs.readFile(filename, "binary", function(err, file) {
 		if(err) {        

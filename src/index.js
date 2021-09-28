@@ -6,6 +6,7 @@
 	const discord = document.getElementById("discord"),
 		avatar = document.getElementById("avatar"),
 		discordSection = document.getElementById("discordSection"),
+		githubSection = document.getElementById("githubSection"),
 		header = document.getElementsByTagName("header")[0],
 		nav = document.getElementsByTagName("nav")[0],
 		aside = document.getElementsByTagName("aside")[0],
@@ -65,6 +66,14 @@
 		discordUser.appendChild(avatarElement);
 		discordUser.appendChild(document.createElement("name"));
 		discordUser.appendChild(document.createElement("status"));
+	}
+
+	const githubRepo = document.createElement("article");
+
+	{
+		githubRepo.appendChild(document.createElement("a"));
+		githubRepo.appendChild(document.createElement("desc"));
+		githubRepo.appendChild(document.createElement("footer"));
 	}
 
 	const hour = 1000 * 60 * 60;
@@ -143,6 +152,28 @@
 				discriminator.innerText = `#${user["discriminator"]}`;
 			})
 			.then(headerQuidem(() => header.toggleAttribute("loaded")));
+
+		// GitHub repositories
+		cachedFetch("https://api.github.com/users/romdotdog/repos?sort=pushed", hour)
+			.then(r => r.json())
+			.then(json => {
+				const fragment = document.createDocumentFragment();
+
+				json.forEach((t, i) => {
+					const repoElement = githubRepo.cloneNode(true);
+					repoElement.style.setProperty("--i", i);
+					const [title, description, footer] =
+						repoElement.childNodes;
+
+					title.innerText = t["name"];
+					title.href = t["html_url"];
+					description.innerText = t["description"];
+					footer.innerText = t["size"] + " KB";
+					fragment.appendChild(repoElement);
+				})
+
+				githubSection.appendChild(fragment);
+			})
 	});
 })();
 
