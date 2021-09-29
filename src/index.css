@@ -47,6 +47,10 @@
 	}
 }
 
+storage {
+	display: none;
+}
+
 html,
 body {
 	height: 100%;
@@ -179,13 +183,25 @@ aside[loaded] > #discordSection article {
 }
 
 #githubSection article {
-	padding: 0 0 16px 18px;
+	padding: 0 4px 16px 18px;
 	opacity: 0;
+}
+
+#githubSection footer > :not(svg) {
+	margin-right: 16px;
+	font-size: 12px;
+	color: #75715e;
+}
+
+#githubSection svg {
+	margin-right: 4px;
+	fill: #75715e;
+	vertical-align: text-bottom;
 }
 
 aside[loaded] > #githubSection article {
 	animation: fromLeft forwards 0.8s cubic-bezier(0.39, 0.575, 0.565, 1)
-		calc(0.75s + var(--i) * 100ms);
+		calc(0.85s + var(--i) * 100ms);
 }
 
 #githubSection a {
@@ -205,6 +221,8 @@ aside[loaded] > #githubSection article {
 
 #githubSection desc {
 	margin-bottom: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	display: block;
 }
 

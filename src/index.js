@@ -2,6 +2,13 @@
 
 
 (() => {
+	const bytes = ["KB", "MB", "GB"];
+	const formatKB = a => {
+		const b = Math.log10(a) | 0;
+		const unit = bytes[b / 3 | 0];
+		return ~~(a / 10 ** b * 100) / 100 + " " + unit;
+	}
+
 	const cachePromise = caches.open("cache");
 	const discord = document.getElementById("discord"),
 		avatar = document.getElementById("avatar"),
@@ -10,7 +17,8 @@
 		header = document.getElementsByTagName("header")[0],
 		nav = document.getElementsByTagName("nav")[0],
 		aside = document.getElementsByTagName("aside")[0],
-		discriminator = document.getElementsByTagName("discriminator")[0];
+		discriminator = document.getElementsByTagName("discriminator")[0],
+		[download, law, star] = document.querySelectorAll("storage svg");
 
 	const quidem = t => {
 		const p = new Promise(r => setTimeout(r, t));
@@ -73,7 +81,16 @@
 	{
 		githubRepo.appendChild(document.createElement("a"));
 		githubRepo.appendChild(document.createElement("desc"));
-		githubRepo.appendChild(document.createElement("footer"));
+
+		const footer = document.createElement("footer");
+		footer.appendChild(download.cloneNode(true));
+		footer.appendChild(document.createElement("size"));
+		footer.appendChild(law.cloneNode(true));
+		footer.appendChild(document.createElement("license"));
+		footer.appendChild(star.cloneNode(true));
+		footer.appendChild(document.createElement("stars"));
+
+		githubRepo.appendChild(footer);
 	}
 
 	const hour = 1000 * 60 * 60;
@@ -164,13 +181,29 @@
 					repoElement.style.setProperty("--i", i);
 					const [title, description, footer] =
 						repoElement.childNodes;
+					
+					const [, size, licenseIcon, license, starIcon, stars] = footer.childNodes;
 
 					title.innerText = t["name"];
 					title.href = t["html_url"];
 					description.innerText = t["description"];
-					footer.innerText = t["size"] + " KB";
+					size.innerText = formatKB(t["size"]);
+					
+					if (t["license"]) {
+						license.innerText = t["license"]["name"];
+					} else {
+						licenseIcon.remove();
+						license.remove();
+					}
+
+					if (t["stargazers_count"]) {
+						stars.innerText = t["stargazers_count"];
+					} else {
+						starIcon.remove();
+					}
+
 					fragment.appendChild(repoElement);
-				})
+				});
 
 				githubSection.appendChild(fragment);
 			})
